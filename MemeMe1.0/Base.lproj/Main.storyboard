@@ -56,10 +56,7 @@
                                 </items>
                             </toolbar>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Sex-p2-Pm6">
-                                <rect key="frame" x="-102" y="44" width="579" height="579"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="579" id="cak-8g-MGm"/>
-                                </constraints>
+                                <rect key="frame" x="0.0" y="44" width="375" height="579"/>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1Pw-FO-rSG" userLabel="topTextField">
                                 <rect key="frame" x="87.5" y="52" width="200" height="50"/>
@@ -89,15 +86,19 @@
                             <constraint firstItem="Bqx-PF-f75" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="33p-zP-yJJ"/>
                             <constraint firstAttribute="trailing" secondItem="Hjp-9t-FDY" secondAttribute="trailing" id="6cZ-jy-qGb"/>
                             <constraint firstItem="Sex-p2-Pm6" firstAttribute="top" secondItem="Bqx-PF-f75" secondAttribute="bottom" id="7JD-Cr-ny7"/>
+                            <constraint firstItem="Sex-p2-Pm6" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="BP5-Uo-A7h"/>
                             <constraint firstItem="Sex-p2-Pm6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Dcl-me-K6e"/>
                             <constraint firstItem="Hjp-9t-FDY" firstAttribute="top" secondItem="Sex-p2-Pm6" secondAttribute="bottom" id="EoL-Fo-Tt9"/>
                             <constraint firstItem="BfI-ju-IxS" firstAttribute="bottom" secondItem="Sex-p2-Pm6" secondAttribute="bottom" constant="-8" id="Gtn-0R-2TM"/>
                             <constraint firstItem="1Pw-FO-rSG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="IYu-d5-O1j"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Hjp-9t-FDY" secondAttribute="bottom" id="JCa-Kt-xeO"/>
                             <constraint firstItem="Sex-p2-Pm6" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="KEQ-Be-2wB"/>
+                            <constraint firstItem="Sex-p2-Pm6" firstAttribute="top" secondItem="Bqx-PF-f75" secondAttribute="bottom" id="MGa-31-XHE"/>
                             <constraint firstItem="1Pw-FO-rSG" firstAttribute="top" secondItem="Sex-p2-Pm6" secondAttribute="top" constant="8" id="YTw-1t-UIU"/>
                             <constraint firstItem="Hjp-9t-FDY" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="fJo-eP-yVL"/>
                             <constraint firstItem="BfI-ju-IxS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="h4n-0i-aSz"/>
+                            <constraint firstItem="Hjp-9t-FDY" firstAttribute="top" secondItem="Sex-p2-Pm6" secondAttribute="bottom" id="i3t-DX-Jsc"/>
+                            <constraint firstAttribute="trailing" secondItem="Sex-p2-Pm6" secondAttribute="trailing" id="i7z-zg-cPf"/>
                             <constraint firstAttribute="trailing" secondItem="Bqx-PF-f75" secondAttribute="trailing" id="kvK-Zv-Zfn"/>
                         </constraints>
                     </view>

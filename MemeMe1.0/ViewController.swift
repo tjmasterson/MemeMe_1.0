@@ -10,10 +10,10 @@ import UIKit
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate,  UITextFieldDelegate {
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.handleAttributeValues(initial: true)
+        configureTextField(textField: topTextField, text: "TOP", defaultAttributes: myTextAttributes)
+        configureTextField(textField: bottomTextField, text: "BOTTOM", defaultAttributes: myTextAttributes)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -26,27 +26,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         unsubscribeFromKeyboardNotifications()
     }
     
-    func handleAttributeValues(initial: Bool = true) {
-        if initial {
-            let myTextAttributes:[String:Any] = [
-                NSStrokeColorAttributeName: UIColor.black,
-                NSForegroundColorAttributeName: UIColor.white,
-                NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-                NSStrokeWidthAttributeName: -3.0]
-            
-            topTextField.delegate = self
-            topTextField.defaultTextAttributes = myTextAttributes
-            topTextField.textAlignment = .center
-            
-            bottomTextField.delegate = self
-            bottomTextField.defaultTextAttributes = myTextAttributes
-            bottomTextField.textAlignment = .center
-        }
-        
-        imageView.image = nil
-        topTextField.text = "TOP"
-        bottomTextField.text = "BOTTOM"
-        shareButton.isEnabled = false
+    let myTextAttributes:[String:Any] = [
+        NSStrokeColorAttributeName: UIColor.black,
+        NSForegroundColorAttributeName: UIColor.white,
+        NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+        NSStrokeWidthAttributeName: -3.0]
+    
+    func configureTextField(textField: UITextField, text: String, defaultAttributes: [String:Any]){
+        textField.text = text
+        textField.defaultTextAttributes = defaultAttributes
+        textField.textAlignment = .center
     }
     
     @IBOutlet weak var cameraButton: UIBarButtonItem!
@@ -59,37 +48,43 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var cancelButton: UIBarButtonItem!
     
     @IBAction func pickAnImage(_ sender: Any) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        present(imagePicker, animated: true, completion: nil)
+        presentImagePickerWith(sourceType: .photoLibrary)
     }
 
     @IBAction func pickImageFromCamera(_ sender: Any) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true, completion: nil)
+        presentImagePickerWith(sourceType: .camera)
     }
     
     @IBAction func shareMeme(_ sender: AnyObject) {
         let meme = generateMemeImage()
-        let VC = UIActivityViewController(activityItems: [meme], applicationActivities: nil)
+        let activityViewController = UIActivityViewController(activityItems: [meme], applicationActivities: nil)
         
-        self.present(VC, animated: true, completion: nil)
+        self.present(activityViewController, animated: true, completion: nil)
         
-        VC.completionWithItemsHandler = {(activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, activityError: Error?) in
+        activityViewController.completionWithItemsHandler = {(activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, activityError: Error?) in
             if completed {
                 self.save(meme)
-                VC.dismiss(animated: true, completion: nil)
+                activityViewController.dismiss(animated: true, completion: nil)
             }
         }
     }
     
     @IBAction func cancelMeme(_ sender: AnyObject) {
-        self.handleAttributeValues(initial: false)
+        configureTextField(textField: topTextField, text: "TOP", defaultAttributes: myTextAttributes)
+        configureTextField(textField: bottomTextField, text: "BOTTOM", defaultAttributes: myTextAttributes)
+        imageView.image = nil
+        shareButton.isEnabled = false
     }
+    
 
-    // MARK: - Image Picker Delegate
+    // MARK: - Image Picker Delegate and Presentation
+    
+    func presentImagePickerWith(sourceType: UIImagePickerControllerSourceType){
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = sourceType
+        present(imagePicker, animated: true, completion: nil)
+    }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
@@ -111,7 +106,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // MARK: - Keyboard Controls 
 
     func keyboardWillShow(_ notification:Notification) {
-        view.frame.origin.y = 0 - getKeyboardHeight(notification)
+        if bottomTextField.isFirstResponder{
+            view.frame.origin.y = 0 - getKeyboardHeight(notification)
+        }
     }
 
     func keyboardWillHide(_ notification: Notification) {
@@ -147,17 +144,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     // MARK: - Share and Save
 
+    func toolBarsShouldHide(hide: Bool) {
+        topToolBar.isHidden = hide
+        bottomToolBar.isHidden = hide
+    }
+    
     func generateMemeImage() -> UIImage {
-        topToolBar.isHidden = true
-        bottomToolBar.isHidden = true
+        toolBarsShouldHide(hide: true)
         
         UIGraphicsBeginImageContext(self.view.frame.size)
         view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
         let memeImg:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
-        topToolBar.isHidden = false
-        bottomToolBar.isHidden = false
+        toolBarsShouldHide(hide: false)
         
         return memeImg
     }

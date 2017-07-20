@@ -6,7 +6,6 @@
 //  Copyright © 2017 Taylor Masterson. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 struct Meme {
