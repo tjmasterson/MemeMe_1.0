@@ -33,6 +33,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         NSStrokeWidthAttributeName: -3.0]
     
     func configureTextField(textField: UITextField, text: String, defaultAttributes: [String:Any]){
+        textField.delegate = self
         textField.text = text
         textField.defaultTextAttributes = defaultAttributes
         textField.textAlignment = .center
