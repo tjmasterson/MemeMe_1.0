@@ -10,34 +10,11 @@ import UIKit
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate,  UITextFieldDelegate {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureTextField(textField: topTextField, text: "TOP", defaultAttributes: myTextAttributes)
-        configureTextField(textField: bottomTextField, text: "BOTTOM", defaultAttributes: myTextAttributes)
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        subscribeToKeyboardNotifications()
-        cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        unsubscribeFromKeyboardNotifications()
-    }
-    
     let myTextAttributes:[String:Any] = [
         NSStrokeColorAttributeName: UIColor.black,
         NSForegroundColorAttributeName: UIColor.white,
         NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
         NSStrokeWidthAttributeName: -3.0]
-    
-    func configureTextField(textField: UITextField, text: String, defaultAttributes: [String:Any]){
-        textField.delegate = self
-        textField.text = text
-        textField.defaultTextAttributes = defaultAttributes
-        textField.textAlignment = .center
-    }
     
     @IBOutlet weak var cameraButton: UIBarButtonItem!
     @IBOutlet weak var imageView: UIImageView!
@@ -71,10 +48,37 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func cancelMeme(_ sender: AnyObject) {
-        configureTextField(textField: topTextField, text: "TOP", defaultAttributes: myTextAttributes)
-        configureTextField(textField: bottomTextField, text: "BOTTOM", defaultAttributes: myTextAttributes)
+        topTextFied.text = "TOP"
+        bottomTextFied.text = "BOTTOM"
         imageView.image = nil
         shareButton.isEnabled = false
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureTextField(textField: topTextField, text: "TOP")
+        configureTextField(textField: bottomTextField, text: "BOTTOM")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        subscribeToKeyboardNotifications()
+        cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        unsubscribeFromKeyboardNotifications()
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    func configureTextField(textField: UITextField, text: String){
+        textField.delegate = self
+        textField.text = text
+        textField.defaultTextAttributes = myTextAttributes
+        textField.textAlignment = .center
     }
     
 
